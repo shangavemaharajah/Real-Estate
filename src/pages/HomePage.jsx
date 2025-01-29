@@ -1,137 +1,51 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper/modules';
-import SwiperCore from 'swiper';
-import 'swiper/css/bundle';
-import ListingItem from '../components/ListingItem';
+import React from "react";
 
-export default function Home() {
-  const [offerListings, setOfferListings] = useState([]);
-  const [saleListings, setSaleListings] = useState([]);
-  const [rentListings, setRentListings] = useState([]);
-
-  SwiperCore.use([Navigation]);
-
-  useEffect(() => {
-    const fetchListings = async () => {
-      try {
-        const [offers, rents, sales] = await Promise.all([
-          fetch('/api/listing/get?offer=true&limit=4').then((res) => res.json()),
-          fetch('/api/listing/get?type=rent&limit=4').then((res) => res.json()),
-          fetch('/api/listing/get?type=sale&limit=4').then((res) => res.json()),
-        ]);
-
-        setOfferListings(offers);
-        setRentListings(rents);
-        setSaleListings(sales);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchListings();
-  }, []);
-
+const HomePage = () => {
   return (
-    <div>
-      {/* Top Section */}
-      <div className="flex flex-col gap-6 p-28 px-3 max-w-6xl mx-auto">
-        <h1 className="text-slate-700 font-bold text-3xl lg:text-6xl">
-          Find your next <span className="text-slate-500">perfect</span>
-          <br />
-          place with ease
-        </h1>
-        <div className="text-gray-400 text-xs sm:text-sm">
-          Sahand Estate is the best place to find your next perfect place to live.
-          <br />
-          We have a wide range of properties for you to choose from.
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
+      <header className="w-full p-4 bg-blue-600 text-white text-center">
+        <h1 className="text-2xl font-bold">Welcome to My Website</h1>
+      </header>
+
+      <main className="flex flex-col items-center justify-center flex-grow p-4">
+        <h2 className="text-3xl font-semibold text-gray-800 mb-4">
+          Build Amazing Experiences
+        </h2>
+        <p className="text-gray-600 text-lg text-center max-w-xl">
+          This is the homepage of your React application, powered by Vite and
+          styled with Tailwind CSS. Customize it to showcase your content and
+          features.
+        </p>
+
+        <div className="mt-6 space-x-4">
+          <a
+            href="/singup"
+            className="px-6 py-3 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-500"
+          >
+            
+            Learn
+          </a>
+          <a
+            href="/login"
+            className="px-6 py-3 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-500"
+          >
+            
+           Login
+          </a>
+          <a
+            href="contact"
+            className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg shadow-lg hover:bg-gray-300"
+          >
+            Contact Us
+          </a>
         </div>
-        <Link
-          to="/search"
-          className="text-xs sm:text-sm text-blue-800 font-bold hover:underline"
-        >
-          Let's get started...
-        </Link>
-      </div>
+      </main>
 
-      {/* Swiper Section */}
-      <Swiper navigation>
-        {offerListings.map((listing) => (
-          <SwiperSlide key={listing._id}>
-            <div
-              style={{
-                background: `url(${listing.imageUrls[0]}) center no-repeat`,
-                backgroundSize: 'cover',
-              }}
-              className="h-[500px]"
-            ></div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-
-      {/* Listing Results */}
-      <div className="max-w-6xl mx-auto p-3 flex flex-col gap-8 my-10">
-        {/* Offers Section */}
-        {offerListings.length > 0 && (
-          <div>
-            <div className="my-3">
-              <h2 className="text-2xl font-semibold text-slate-600">Recent offers</h2>
-              <Link
-                className="text-sm text-blue-800 hover:underline"
-                to="/search?offer=true"
-              >
-                Show more offers
-              </Link>
-            </div>
-            <div className="flex flex-wrap gap-4">
-              {offerListings.map((listing) => (
-                <ListingItem listing={listing} key={listing._id} />
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Rent Section */}
-        {rentListings.length > 0 && (
-          <div>
-            <div className="my-3">
-              <h2 className="text-2xl font-semibold text-slate-600">Recent places for rent</h2>
-              <Link
-                className="text-sm text-blue-800 hover:underline"
-                to="/search?type=rent"
-              >
-                Show more places for rent
-              </Link>
-            </div>
-            <div className="flex flex-wrap gap-4">
-              {rentListings.map((listing) => (
-                <ListingItem listing={listing} key={listing._id} />
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Sale Section */}
-        {saleListings.length > 0 && (
-          <div>
-            <div className="my-3">
-              <h2 className="text-2xl font-semibold text-slate-600">Recent places for sale</h2>
-              <Link
-                className="text-sm text-blue-800 hover:underline"
-                to="/search?type=sale"
-              >
-                Show more places for sale
-              </Link>
-            </div>
-            <div className="flex flex-wrap gap-4">
-              {saleListings.map((listing) => (
-                <ListingItem listing={listing} key={listing._id} />
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
+      <footer className="w-full p-4 bg-gray-100 text-gray-600 text-center">
+        <p>&copy; {new Date().getFullYear()} My Website. All Rights Reserved.</p>
+      </footer>
     </div>
   );
-}
+};
+
+export default HomePage;
